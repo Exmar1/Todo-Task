@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Todo App</title>
+</head>
+<body>
+    <div class="navbar">
+        {% if user.is_authenticated %}
+            <span>Logged In as {{ user.username }}</span>
+            <form action="{% url 'logoutuser' %}" method="POST">
+                {% csrf_token %}
+                <button type="submit">Logout</button>
+            </form>
+        {% else %}
+            <a href="{% url 'signupuser' %}">Sign Up</a>
+            <a href="{% url 'loginuser' %}">Login</a>
+        {% endif %}
+    </div>
+
+    {% block content %}
+    {% endblock %}
+</body>
+</html>
