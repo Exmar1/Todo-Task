@@ -71,5 +71,3 @@ def viewtodo(request, todo_pk):
 				return redirect('currenttodos') 
 			except ValueError:
 				return render(request, 'todo/item_detail.html', {'object':obj, 'form':form, 'error':'Bad info'})
-
- 
