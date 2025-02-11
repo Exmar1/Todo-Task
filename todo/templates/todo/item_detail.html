@@ -11,6 +11,16 @@
 {{ form.as_p }}
 <button type="submit">Save</button>
 </form>
+
+<form method="POST" action="{% url 'completetodo' object.id %}">
+	{% csrf_token %}
+<button type="submit">Completed</button>
+</form>
+
+<form method="POST" action="{% url 'deletetodo' object.id %}">
+	{% csrf_token %}
+<button type="submit">Delete</button>
+</form>
  
 <b>
 </b>
