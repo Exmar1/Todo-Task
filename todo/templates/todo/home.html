@@ -1,15 +1,9 @@
-
 {% extends "todo/base.html" %}
-
-{% load static %}
-
 
 {% block content %}
 <div class="content-center">
-	<h1 class="text-caption">Todowo: Организуй свой день легко и эффективно!</h1>
-	<p class ="text-description">Будь хозяином своего времени. Todowo поможет найти баланс между задачами и отдыхом.</p>
-	<a href="{% url 'signupuser' %}" class="custom-btn">Start</a>
+    <h1 class="text-caption">Todowo: Организуй свой день легко и эффективно!</h1>
+    <p class="text-description">Будь хозяином своего времени. Todowo поможет найти баланс между задачами и отдыхом.</p>
+    <a href="{% url 'signupuser' %}" class="custom-btn">Start</a>
 </div>
-
-
-{% endblock %}	 
+{% endblock %}
