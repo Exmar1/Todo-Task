@@ -6,7 +6,7 @@ from django.contrib.auth import login, logout, authenticate
 from .forms import TodoForm
 from .models import TaskItem
 from django.utils import timezone
-
+from django.contrib.auth.decorators import login_required
 
 def home(request):
 	return render(request, 'todo/home.html')
@@ -37,12 +37,14 @@ def loginuser(request):
 			else:
 				login(request, user)
 				return redirect('currenttodos')
-
+			
+@login_required
 def logoutuser(request):
 	if request.method == 'POST':
 		logout(request)
 		return redirect('home')
 	
+@login_required
 def createtodo(request):
 		if request.method == 'GET':
 			return render(request, 'todo/createtodo.html', {'form':TodoForm()})
@@ -55,11 +57,13 @@ def createtodo(request):
 				return redirect('currenttodos')
 			except ValueError:
 				return render(request, 'todo/createtodo.html', {'form':TodoForm(), 'error': 'Bad data passed in. Try Again'})
-				
+
+@login_required		
 def currenttodos(request):
 	todos = TaskItem.objects.filter(user=request.user, datecompleted__isnull = True)
 	return render(request, 'todo/currenttodos.html', {'todos':todos})
 
+@login_required
 def viewtodo(request, todo_pk):
 	obj = get_object_or_404(TaskItem, pk=todo_pk, user=request.user)
 	if request.method == 'GET':
@@ -73,17 +77,26 @@ def viewtodo(request, todo_pk):
 			except ValueError:
 				return render(request, 'todo/item_detail.html', {'object':obj, 'form':form, 'error':'Bad info'})
 
-def completetodo(request, todo_pk):
-	obj = get_object_or_404(TaskItem, pk=todo_pk, user=request.user)
-	if request.method == 'POST':
-			obj.datecompleted = timezone.now()
-			obj.save()
-			return redirect('currenttodos')
-	
+@login_required		
 def deletetodo(request, todo_pk):
 	obj = get_object_or_404(TaskItem, pk=todo_pk, user=request.user)
 	if request.method == 'POST':
 			obj.save()
 			obj.delete()
 			return redirect('currenttodos')
-		
+
+@login_required
+def completetodo(request, todo_pk):
+	todo = get_object_or_404(TaskItem, pk=todo_pk, user=request.user)
+	if request.method == 'POST':
+		todo.datecompleted = timezone.now()
+		todo.save()
+		return redirect('currenttodos')
+
+@login_required	
+def completetodos(request):
+	todos = TaskItem.objects.filter(user=request.user, datecompleted__isnull = False).order_by('-datecompleted')
+	return render(request, 'todo/completetodos.html', {'todos':todos})
+	
+
+	
