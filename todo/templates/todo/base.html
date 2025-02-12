@@ -1,7 +1,9 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
 <head>
     <title>Todo App</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/home.css' %}">
 </head>
 <body>
     <div class="navbar">
@@ -12,7 +14,7 @@
              <a href="{% url 'completetodos' %}">Completed</a>
             <form action="{% url 'logoutuser' %}" method="POST">
                 {% csrf_token %}
-                <button type="submit">Logout</button>
+                <button type="submit">Logout</button> 
             </form>
         {% else %}
             <a href="{% url 'signupuser' %}">Sign Up</a>
